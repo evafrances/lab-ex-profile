@@ -29,8 +29,23 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', function(next) {
   const user = this;
   // TODO: password hashing if necessary
+  if (user.isModified("password")){
+    bcrypt.genSalt(SALT_WORK_FACTOR)
+      .then(salt => bcrypt.hash(user.password, salt)) 
+        .then(hash => {
+          user.password = hash;
+          next();
+      })
+      .catch(error => next(error))
+  }
+  else{
+    next()
+  }
 });
 
+userSchema.methods.checkPassword = function(password) {
+  return bcrypt.compare(password, this.password)
+}
 // TODO: checkPassword method
 
 const User = mongoose.model('User', userSchema);

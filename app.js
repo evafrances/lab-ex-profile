@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // TODO: apply session & passport configuration with app.use(...)
-
+app.get('/', (req, res, next) => res.redirect('/login'))
 app.use('/', authRouter);
 
 // catch 404 and forward to error handler
