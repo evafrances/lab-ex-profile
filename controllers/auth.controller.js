@@ -39,7 +39,9 @@ module.exports.login = (req, res, next) => {
 }
 
 module.exports.doLogin = (req, res, next) => {
-  // TODO: passport local-auth authentication & redirect to /profile
+  passport.authenticate('local-auth', () => {
+    
+  })
 }
 
 module.exports.loginWithGoogleCallback = (req, res, next) => {

@@ -5,7 +5,9 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+const session = require('./config/session.config')
+const passport = require ('passport')
+require('./config/passport.config');
 require('./config/db.config');
 require('./config/hbs.config');
 // TODO: require passport & session config
@@ -20,9 +22,13 @@ app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session);
+app.use(passport.initialize());
+app.use(passport.session());
 // TODO: apply session & passport configuration with app.use(...)
 app.get('/', (req, res, next) => res.redirect('/login'))
 app.use('/', authRouter);
