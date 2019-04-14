@@ -8,7 +8,8 @@ router.post('/register', auth.doRegister);
 router.get('/login', auth.login);
 router.post('/login', auth.doLogin);
 router.get('/logout', auth.logout);
-router.get('/profile', auth.profile);
+// secure.isAuthenticated es un middleware que valida si el usuario está autenticado
+router.get('/profile', secure.isAuthenticated, auth.profile);
 // TODO: google & profile paths
 
 module.exports = router;

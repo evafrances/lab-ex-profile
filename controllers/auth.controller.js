@@ -47,7 +47,7 @@ module.exports.doLogin = (req, res, next) => {
         user: req.body,
         errors: validation //le enviamos el sistema de validación que definimos en el modelo
       })
-    } else { //si encontró al usuario y coincida su contraseña      
+    } else { //si encontró al usuario y coincide su contraseña      
       //llamamos al metodo login de passport y y le pasamos el usuario encontrado y una función por si hay errores
       return req.login(user, (err) => { 
         if(err) {
