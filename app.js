@@ -29,6 +29,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
+// Aqui guardamos en passport los datos del usuario authenticado. 
+// De esta forma podemos acceder a estos datos desde cualquier lugar handlebar, o controlador, o lo que sea
+app.use((req, res, next) => {
+  res.locals.path = req.path;
+  res.locals.session = req.user;
+  next();
+})
+
 // TODO: apply session & passport configuration with app.use(...)
 app.get('/', (req, res, next) => res.redirect('/login'))
 app.use('/', authRouter);

@@ -22,6 +22,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Password is required'],
     minlength: [8, 'Password needs at last 8 chars']
+  },
+  avatarURL : {
+    type: String, //de la imagen solo guardamos la URL de cloudinary
   }
   // TODO: avatar & social login attrs
 }, { timestamps: true })
