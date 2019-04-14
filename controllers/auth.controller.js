@@ -39,9 +39,25 @@ module.exports.login = (req, res, next) => {
 }
 
 module.exports.doLogin = (req, res, next) => {
-  passport.authenticate('local-auth', () => {
-    
-  })
+  passport.authenticate('local-auth', (err, user, validation) => {
+    if(err) { //si hay algún error. 
+      next(next) //lo enviamos al handle error.
+    } else if (!user){ //si no hay usuario por parte de passport
+      res.render('auth/login', { //renderizamos un error. 
+        user: req.body,
+        errors: validation //le enviamos el sistema de validación que definimos en el modelo
+      })
+    } else { //si encontró al usuario y coincida su contraseña      
+      //llamamos al metodo login de passport y y le pasamos el usuario encontrado y una función por si hay errores
+      return req.login(user, (err) => { 
+        if(err) {
+          next(err)
+        } else {
+          res.redirect('/profile')
+        }
+      })
+    }
+  })(req, res, next);
 }
 
 module.exports.loginWithGoogleCallback = (req, res, next) => {
